@@ -1,5 +1,3 @@
-### Android Client written in Go to send Messages to LogPacker Cluster
-
 ### How to import into Java project
 
 This is an example how to do it in the Android Studio

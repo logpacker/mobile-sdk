@@ -1,5 +1,10 @@
 package logpackerandroid
 
+import (
+	"bytes"
+	"net/http"
+)
+
 // FatalLogLevel var
 var FatalLogLevel = 0
 
@@ -36,5 +41,12 @@ type Result struct {
 
 // Send sends error to the LogPacker Cluster
 func (c *Client) Send(message *Message) (*Result, error) {
+	c.getRequest(message)
 	return nil, nil
+}
+
+func (c *Client) getRequest(message *Message) (*http.Request, error) {
+	json := "123"
+	buf := bytes.NewBuffer([]byte(json))
+	return http.NewRequest("POST", c.ClusterURL, buf)
 }

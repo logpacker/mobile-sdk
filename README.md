@@ -3,8 +3,8 @@
 Android Studio:
 
 * File > New > New Module > Import .JAR or .AAR package
-* File > Project Structure > Dependencies
-* Access the Go library from anywhere simply by importing *go.android-client.logpackerandroid*
+* File > Project Structure > Dependencies -> Add
+* Add import: *import go.logpackerandroid.Logpackerandroid;*
 
 ### How to build an *.aar* package from Go package
 

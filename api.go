@@ -1,65 +1,40 @@
 package logpackerandroid
 
-import "time"
-
-// LogLevel structure
-type LogLevel struct {
-	Mode int    // From 0 to 5
-	Name string // String representation
-}
-
 // FatalLogLevel var
-var FatalLogLevel = LogLevel{
-	Mode: 0,
-	Name: "Fatal",
-}
+var FatalLogLevel = 0
 
 // ErrorLogLevel var
-var ErrorLogLevel = LogLevel{
-	Mode: 1,
-	Name: "Error",
-}
+var ErrorLogLevel = 1
 
 // WarnLogLevel var
-var WarnLogLevel = LogLevel{
-	Mode: 2,
-	Name: "Warning",
-}
+var WarnLogLevel = 2
 
 // InfoLogLevel var
-var InfoLogLevel = LogLevel{
-	Mode: 3,
-	Name: "Info",
-}
+var InfoLogLevel = 3
 
 // DebugLogLevel var
-var DebugLogLevel = LogLevel{
-	Mode: 4,
-	Name: "Debug",
-}
+var DebugLogLevel = 4
 
 // NoticeLogLevel var
-var NoticeLogLevel = LogLevel{
-	Mode: 5,
-	Name: "Notice",
-}
+var NoticeLogLevel = 5
 
 // Message format to be sent to LogPacker
 type Message struct {
-	ID       string    // Auto-generated unique hash per event
-	Message  string    // String for 1 log message
-	Source   string    // Filename or Module name
-	Time     time.Time // Time when it's occured
-	TagName  string    // Can be set manually
-	LogLevel LogLevel  // NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
+	ID       string // Auto-generated unique hash per event
+	Message  string // String for 1 log message
+	Source   string // Filename or Module name
+	Time     string // Unix Timestamp
+	TagName  string // Can be set manually
+	LogLevel int    // NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
 }
 
 // Result will be returned from Cluster (in JSON)
 type Result struct {
-	Messages []string // IDs of saved messages
+	Code  int
+	Error string
 }
 
 // Send sends error to the LogPacker Cluster
-func (c *Client) Send(messages []*Message) (*Result, error) {
+func (c *Client) Send(message *Message) (*Result, error) {
 	return nil, nil
 }

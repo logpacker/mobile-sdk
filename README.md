@@ -5,12 +5,32 @@
 Android Studio:
 
 * File > New > New Module > Import .JAR or .AAR package
-* File > Project Structure > Dependencies -> Add
+* File > Project Structure > app -> Dependencies -> Add Module Dependency
 * Add import: *import go.logpackerandroid.Logpackerandroid;*
 
 #### How to use it in Java:
 
 ```java
+String logPackerClusterURL = "https://logpacker.mywebsite.com";
+
+Logpackerandroid.Client logPackerClient;
+Logpackerandroid.Message logMessage;
+
+try {
+    logPackerClient = Logpackerandroid.NewClient(logPackerClusterURL);
+
+    logMessage = new Logpackerandroid.Message();
+    logMessage.setMessage("Crash is here!");
+    logMessage.setTagName("myapp");
+    logMessage.setSource("paymentmodule");
+    logMessage.setUserID("1001");
+    logMessage.setUserName("John");
+
+    logPackerClient.Send(logMessage);
+} catch (Exception e) {
+    // Cannot connect to Cluster
+    // Or validation error
+}
 ```
 
 #### How to build an *.aar* package from Go package

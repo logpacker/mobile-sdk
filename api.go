@@ -41,6 +41,7 @@ type Message struct {
 type Result struct {
 	Code  int
 	Error string
+	ID    string // Unique message ID after save
 }
 
 // Send sends error to the LogPacker Cluster
@@ -67,16 +68,25 @@ func (c *Client) Send(msg *Message) (*Result, error) {
 	}
 	defer resp.Body.Close()
 
-	result := &Result{
-		Code: resp.StatusCode,
+	type apiResultType struct {
+		Code  int
+		Error string
+		Data  []string
 	}
-
-	resultForErrorMessage := &Result{}
-	err = json.NewDecoder(resp.Body).Decode(resultForErrorMessage)
+	apiResult := &apiResultType{}
+	err = json.NewDecoder(resp.Body).Decode(apiResult)
 	if err != nil {
 		return nil, err
 	}
-	result.Error = resultForErrorMessage.Error
+	messageID := ""
+	if len(apiResult.Data) > 0 {
+		messageID = apiResult.Data[0]
+	}
+	result := &Result{
+		Code:  apiResult.Code,
+		Error: apiResult.Error,
+		ID:    messageID,
+	}
 
 	return result, nil
 }
@@ -102,7 +112,7 @@ func (c *Client) validate(msg *Message) error {
 
 func (c *Client) getRequest(payload []byte) (*http.Request, error) {
 	buf := bytes.NewBuffer(payload)
-	return http.NewRequest("POST", c.ClusterURL, buf)
+	return http.NewRequest("POST", c.ClusterURL+"/save", buf)
 }
 
 func (c *Client) generatePayload(msg *Message) ([]byte, error) {

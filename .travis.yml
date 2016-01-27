@@ -3,5 +3,6 @@ go:
  - 1.5
 install:
  - export PATH=$PATH:$HOME/gopath/bin
+ - go get github.com/gorilla/mux
 script:
  - go test -v

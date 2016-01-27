@@ -2,6 +2,7 @@ package logpackerandroid
 
 import (
 	"bytes"
+	"encoding/json"
 	"net/http"
 )
 
@@ -25,11 +26,9 @@ var NoticeLogLevel = 5
 
 // Message format to be sent to LogPacker
 type Message struct {
-	ID       string // Auto-generated unique hash per event
+	UserID   string // Username or ID
 	Message  string // String for 1 log message
 	Source   string // Filename or Module name
-	Time     string // Unix Timestamp
-	TagName  string // Can be set manually
 	LogLevel int    // NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
 }
 
@@ -40,13 +39,81 @@ type Result struct {
 }
 
 // Send sends error to the LogPacker Cluster
-func (c *Client) Send(message *Message) (*Result, error) {
-	c.getRequest(message)
-	return nil, nil
+func (c *Client) Send(msg *Message) (*Result, error) {
+	payload, err := c.generatePayload(msg)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := c.getRequest(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	result := &Result{
+		Code: resp.StatusCode,
+	}
+
+	resultForErrorMessage := &Result{}
+	err = json.NewDecoder(resp.Body).Decode(resultForErrorMessage)
+	if err != nil {
+		return nil, err
+	}
+	result.Error = resultForErrorMessage.Error
+
+	return result, nil
 }
 
-func (c *Client) getRequest(message *Message) (*http.Request, error) {
-	json := "123"
-	buf := bytes.NewBuffer([]byte(json))
+func (c *Client) getRequest(payload []byte) (*http.Request, error) {
+	buf := bytes.NewBuffer(payload)
 	return http.NewRequest("POST", c.ClusterURL, buf)
+}
+
+func (c *Client) generatePayload(msg *Message) ([]byte, error) {
+	type client struct {
+		UserID      string `json:"user_id"`
+		PageURL     string `json:"page_url"`
+		ErrorLogURL string `json:"error_log_url"`
+	}
+
+	type message struct {
+		Text      string `json:"message_text"`
+		JSFileURL string `json:"js_file_url"`
+		Line      int    `json:"line"`
+		Column    int    `json:"column"`
+		Error     string `json:"error"`
+	}
+
+	type payload struct {
+		Client   client    `json:"client"`
+		Messages []message `json:"messages"`
+	}
+
+	payloadData := payload{
+		Client: client{
+			UserID:      msg.UserID,
+			ErrorLogURL: msg.Source,
+			PageURL:     msg.Source,
+		},
+		Messages: []message{
+			message{
+				Text:      msg.Message,
+				JSFileURL: msg.Source,
+			},
+		},
+	}
+
+	json, err := json.Marshal(payloadData)
+	if err != nil {
+		return []byte(""), err
+	}
+
+	return json, nil
 }

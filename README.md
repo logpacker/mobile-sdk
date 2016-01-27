@@ -1,4 +1,4 @@
-### How to import into Java project
+#### How to import into Java project
 
 Android Studio:
 
@@ -6,7 +6,12 @@ Android Studio:
 * File > Project Structure > Dependencies -> Add
 * Add import: *import go.logpackerandroid.Logpackerandroid;*
 
-### How to build an *.aar* package from Go package
+#### How to use it in Java:
+
+```java
+```
+
+#### How to build an *.aar* package from Go package
 
 * golang 1.5+
 * go get golang.org/x/mobile/cmd/gomobile

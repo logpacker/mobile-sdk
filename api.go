@@ -42,6 +42,11 @@ type Result struct {
 	ID    string // Unique message ID after save
 }
 
+// NewMessage initializes new message object
+func (c *Client) NewMessage() *Message {
+	return &Message{}
+}
+
 // Send sends error to the LogPacker Cluster
 func (c *Client) Send(msg *Message) (*Result, error) {
 	err := c.validate(msg)

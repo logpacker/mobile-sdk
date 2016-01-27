@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/logpacker/android-client.svg?branch=master)](https://travis-ci.org/logpacker/android-client)
+
 #### How to import into Java project
 
 Android Studio:

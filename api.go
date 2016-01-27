@@ -3,6 +3,7 @@ package logpackerandroid
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -40,6 +41,10 @@ type Result struct {
 
 // Send sends error to the LogPacker Cluster
 func (c *Client) Send(msg *Message) (*Result, error) {
+	if msg.Message == "" {
+		return nil, errors.New("Message cannot be empty")
+	}
+
 	payload, err := c.generatePayload(msg)
 	if err != nil {
 		return nil, err

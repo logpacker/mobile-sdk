@@ -87,22 +87,28 @@ func restSave(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestNewClient(t *testing.T) {
-	_, err := NewClient("")
+	_, err := NewClient("", "", "")
 	if err == nil {
 		t.Errorf("Error must be returned and client must be nil")
 	}
 
-	c, err := NewClient("1234567890")
+	c, err := NewClient("1234567890", "", "")
 	if err == nil {
 		t.Errorf("Error must be returned and client must be nil")
 	}
 
-	c, err = NewClient(Server.URL)
+	c, err = NewClient(Server.URL, "production", "Android 5.0")
 	if err != nil {
 		t.Errorf("This URL is correct")
 	}
 	if c.ClusterURL != Server.URL {
 		t.Errorf("ClusterURL is not set")
+	}
+	if c.Environment != "production" {
+		t.Errorf("Environment is not set")
+	}
+	if c.Agent != "Android 5.0" {
+		t.Errorf("Agent is not set")
 	}
 }
 
@@ -112,40 +118,22 @@ func TestSend(t *testing.T) {
 	}
 
 	result, err := c.Send(&Message{
-		UserID:      "android-1",
-		Agent:       "android",
-		TagName:     "android",
-		UserName:    "John",
-		Message:     "",
-		Source:      "paymentmodule",
-		LogLevel:    FatalLogLevel,
-		Environment: "production",
+		Message: "",
 	})
 	if err == nil || result != nil {
 		t.Errorf("Error must be returned and result must be nil")
 	}
 
 	result, err = c.Send(&Message{
-		UserID:      "android-1",
-		UserName:    "John",
-		Message:     "Crash message!",
-		Source:      "paymentmodule",
-		LogLevel:    100,
-		Environment: "production",
+		Message:  "Crash message!",
+		LogLevel: 100,
 	})
 	if err == nil || result != nil {
 		t.Errorf("Error must be returned and result must be nil")
 	}
 
 	result, err = c.Send(&Message{
-		UserID:      "android-1",
-		Agent:       "Android 4.4",
-		TagName:     "MyApp",
-		UserName:    "John",
-		Message:     "Crash message!",
-		Source:      "paymentmodule",
-		LogLevel:    ErrorLogLevel,
-		Environment: "production",
+		Message: "Crash message!",
 	})
 	if err != nil || result == nil {
 		t.Errorf("Result must be not nil")

@@ -27,14 +27,12 @@ var NoticeLogLevel = 5
 
 // Message format to be sent to LogPacker
 type Message struct {
-	Message     string // required, String for 1 log message
-	Source      string // optional, Filename or Module name
-	LogLevel    int    // optional, NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
-	UserID      string // optional, User ID
-	UserName    string // optional, Username
-	Agent       string // optional, Agent name, Android for example
-	Environment string // optional: development|production
-	TagName     string // optional
+	Message  string // required, String for 1 log message, can be multiline
+	Source   string // optional, Filename or Module name
+	LogLevel int    // optional, NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
+	UserID   string // optional, User ID
+	UserName string // optional, Username
+	TagName  string // optional, tag if you want to group messages in future
 }
 
 // Result will be returned from Cluster (in JSON)
@@ -78,6 +76,7 @@ func (c *Client) Send(msg *Message) (*Result, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	messageID := ""
 	if len(apiResult.Data) > 0 {
 		messageID = apiResult.Data[0]
@@ -100,9 +99,6 @@ func (c *Client) validate(msg *Message) error {
 	}
 
 	// Set defaults
-	if msg.Agent == "" {
-		msg.Agent = "android"
-	}
 	if msg.TagName == "" {
 		msg.TagName = "android"
 	}
@@ -142,8 +138,8 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 		Client: client{
 			UserID:   msg.UserID,
 			UserName: msg.UserName,
-			Env:      msg.Environment,
-			Agent:    msg.Agent,
+			Env:      c.Environment,
+			Agent:    c.Agent,
 			URL:      "",
 		},
 		Messages: []message{

@@ -8,13 +8,21 @@ import (
 // Client will be initialized 1 time
 // ClusterURL is a host:port to the LogPacker cluster
 type Client struct {
-	ClusterURL string
+	ClusterURL  string
+	Environment string
+	Agent       string
 }
 
 // NewClient returns Client object and error
-func NewClient(clusterURL string) (*Client, error) {
+func NewClient(clusterURL string, environment string, agent string) (*Client, error) {
+	if agent == "" {
+		agent = "android"
+	}
+
 	c := &Client{
-		ClusterURL: clusterURL,
+		ClusterURL:  clusterURL,
+		Environment: environment,
+		Agent:       agent,
 	}
 
 	if clusterURL == "" {

@@ -27,10 +27,14 @@ var NoticeLogLevel = 5
 
 // Message format to be sent to LogPacker
 type Message struct {
-	UserID   string // Username or ID
-	Message  string // String for 1 log message
-	Source   string // Filename or Module name
-	LogLevel int    // NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
+	Message     string // required, String for 1 log message
+	Source      string // optional, Filename or Module name
+	LogLevel    int    // optional, NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
+	UserID      string // optional, User ID
+	UserName    string // optional, Username
+	Agent       string // optional, Agent name, Android for example
+	Environment string // optional: development|production
+	TagName     string // optional
 }
 
 // Result will be returned from Cluster (in JSON)
@@ -41,8 +45,9 @@ type Result struct {
 
 // Send sends error to the LogPacker Cluster
 func (c *Client) Send(msg *Message) (*Result, error) {
-	if msg.Message == "" {
-		return nil, errors.New("Message cannot be empty")
+	err := c.validate(msg)
+	if err != nil {
+		return nil, err
 	}
 
 	payload, err := c.generatePayload(msg)
@@ -76,6 +81,25 @@ func (c *Client) Send(msg *Message) (*Result, error) {
 	return result, nil
 }
 
+func (c *Client) validate(msg *Message) error {
+	if msg.Message == "" {
+		return errors.New("Message cannot be empty")
+	}
+	if msg.LogLevel < FatalLogLevel || msg.LogLevel > NoticeLogLevel {
+		return errors.New("LogLevel is invalid. Valid are: 0 - 5")
+	}
+
+	// Set defaults
+	if msg.Agent == "" {
+		msg.Agent = "android"
+	}
+	if msg.TagName == "" {
+		msg.TagName = "android"
+	}
+
+	return nil
+}
+
 func (c *Client) getRequest(payload []byte) (*http.Request, error) {
 	buf := bytes.NewBuffer(payload)
 	return http.NewRequest("POST", c.ClusterURL, buf)
@@ -83,17 +107,20 @@ func (c *Client) getRequest(payload []byte) (*http.Request, error) {
 
 func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 	type client struct {
-		UserID      string `json:"user_id"`
-		PageURL     string `json:"page_url"`
-		ErrorLogURL string `json:"error_log_url"`
+		UserID   string `json:"user_id"`
+		UserName string `json:"user_name"`
+		URL      string `json:"url"`
+		Env      string `json:"environment"`
+		Agent    string `json:"agent"`
 	}
 
 	type message struct {
-		Text      string `json:"message_text"`
-		JSFileURL string `json:"js_file_url"`
-		Line      int    `json:"line"`
-		Column    int    `json:"column"`
-		Error     string `json:"error"`
+		Message  string `json:"message"`
+		Source   string `json:"source"`
+		Line     int    `json:"line"`
+		Column   int    `json:"column"`
+		LogLevel int    `json:"log_level"`
+		TagName  string `json:"tag_name"`
 	}
 
 	type payload struct {
@@ -103,14 +130,20 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 
 	payloadData := payload{
 		Client: client{
-			UserID:      msg.UserID,
-			ErrorLogURL: msg.Source,
-			PageURL:     msg.Source,
+			UserID:   msg.UserID,
+			UserName: msg.UserName,
+			Env:      msg.Environment,
+			Agent:    msg.Agent,
+			URL:      "",
 		},
 		Messages: []message{
 			message{
-				Text:      msg.Message,
-				JSFileURL: msg.Source,
+				Message:  msg.Message,
+				Source:   msg.Source,
+				Line:     0,
+				Column:   0,
+				LogLevel: msg.LogLevel,
+				TagName:  msg.TagName,
 			},
 		},
 	}

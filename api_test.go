@@ -1,4 +1,4 @@
-package logpackerandroid
+package logpackermobilesdk
 
 import (
 	"encoding/json"
@@ -97,7 +97,7 @@ func TestNewClient(t *testing.T) {
 		t.Errorf("Error must be returned and client must be nil")
 	}
 
-	c, err = NewClient(Server.URL, "production", "Android 5.0")
+	c, err = NewClient(Server.URL, "production", "Nexus")
 	if err != nil {
 		t.Errorf("This URL is correct")
 	}
@@ -107,7 +107,7 @@ func TestNewClient(t *testing.T) {
 	if c.Environment != "production" {
 		t.Errorf("Environment is not set")
 	}
-	if c.Agent != "Android 5.0" {
+	if c.Agent != "Nexus" {
 		t.Errorf("Agent is not set")
 	}
 }

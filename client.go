@@ -1,4 +1,4 @@
-package logpackerandroid
+package logpackermobilesdk
 
 import (
 	"errors"
@@ -16,7 +16,7 @@ type Client struct {
 // NewClient returns Client object and error
 func NewClient(clusterURL string, environment string, agent string) (*Client, error) {
 	if agent == "" {
-		agent = "android"
+		agent = "mobile"
 	}
 
 	c := &Client{

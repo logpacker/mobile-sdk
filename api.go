@@ -1,4 +1,4 @@
-package logpackerandroid
+package logpackermobilesdk
 
 import (
 	"bytes"
@@ -105,7 +105,7 @@ func (c *Client) validate(msg *Message) error {
 
 	// Set defaults
 	if msg.TagName == "" {
-		msg.TagName = "android"
+		msg.TagName = "mobile"
 	}
 
 	return nil

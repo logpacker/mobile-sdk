@@ -12,23 +12,23 @@ Android Studio:
 
 ```java
 String logPackerClusterURL = "https://logpacker.mywebsite.com";
-String logPackerEnv = "development"
-String logPackerAgent = "Nexus"
+String logPackerEnv = "development";
+String logPackerAgent = "Nexus";
 
-Logpackermobilesdk.Client logPackerClient;
-Logpackermobilesdk.Message logMessage;
+Logpackermobilesdk.Client client;
+Logpackermobilesdk.Message msg;
 
 try {
-    logPackerClient = Logpackermobilesdk.NewClient(logPackerClusterURL, logPackerEnv, logPackerAgent);
+    client = Logpackermobilesdk.NewClient(logPackerClusterURL, logPackerEnv, logPackerAgent);
 
-    logMessage = new Logpackermobilesdk.Message();
-    logMessage.setMessage("Crash is here!");
-    logMessage.setTagName("myapp");
-    logMessage.setSource("paymentmodule");
-    logMessage.setUserID("1001");
-    logMessage.setUserName("John");
+    msg = Logpackermobilesdk.NewMessage();
+    msg.setMessage("Crash is here!");
+    msg.setTagName("myapp");
+    msg.setSource("paymentmodule");
+    msg.setUserID("1001");
+    msg.setUserName("John");
 
-    logPackerClient.Send(logMessage);
+    client.Send(msg);
 } catch (Exception e) {
     // Cannot connect to Cluster
     // Or validation error
@@ -41,9 +41,12 @@ try {
 * go get golang.org/x/mobile/cmd/gomobile
 * gomobile init
 * Install [Android SDK](https://developer.android.com/sdk/index.html#Other) to ~/android-sdk
+* ~/android-sdk/tools/android sdk
 * java-jdk or
-* ANDROID_HOME=$HOME"/android-sdk" &&gomobile bind --target=android .
+* export ANDROID_HOME=$HOME"/android-sdk" && gomobile bind --target=android .
 * Find *.aar* file in working folder
+* gomobile bind --target=ios .
+* Find Logpackermobilesdk.framework folder
 
 #### How to contribute
 

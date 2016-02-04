@@ -35,6 +35,61 @@ try {
 }
 ```
 
+#### How to send Android crashes to LogPacker
+
+You must catch uncaughtException in your application and use LogPacker to send the exception:
+
+```java
+public class MyApplication extends Application {
+    public void onCreate () {
+        // Setup handler for uncaught exceptions.
+        Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException (Thread thread, Throwable e) {
+                handleUncaughtException (thread, e);
+            }
+        });
+    }
+
+    public void handleUncaughtException (Thread thread, Throwable e) {
+        String logPackerClusterURL = "https://logpacker.mywebsite.com";
+        String logPackerEnv = "development";
+        String logPackerAgent = "Nexus";
+
+        Logpackermobilesdk.Client client;
+        Logpackermobilesdk.Message msg;
+
+        try {
+            client = Logpackermobilesdk.NewClient(logPackerClusterURL, logPackerEnv, logPackerAgent);
+
+            msg = Logpackermobilesdk.NewMessage();
+            msg.setMessage(e.getMessage());
+            msg.setTagName("crash");
+            msg.setSource("crash");
+            msg.setUserID("1001");
+            msg.setUserName("John");
+
+            client.Send(msg);
+        } catch (Exception e) {
+            // Cannot connect to Cluster
+            // Or validation error
+        }
+
+        System.exit(1); // kill off the crashed app
+    }
+}
+```
+
+#### How to import into iOS project
+
+Untar Logpackermobilesdk.framework.tar to the root of your project. Or drag Logpackermobilesdk.framework folder to the Xcode's file browser.
+
+#### How to use in Xcode
+
+```c
+#import "Logpackermobilesdk/Logpackermobilesdk.h"
+```
+
 #### How to build an *.aar* package from Go package
 
 * golang 1.5+

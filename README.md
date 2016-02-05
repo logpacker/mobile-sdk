@@ -23,7 +23,6 @@ try {
 
     msg = Logpackermobilesdk.NewMessage();
     msg.setMessage("Crash is here!");
-    msg.setTagName("myapp");
     msg.setSource("paymentmodule");
     msg.setUserID("1001");
     msg.setUserName("John");

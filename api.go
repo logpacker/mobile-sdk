@@ -32,7 +32,6 @@ type Message struct {
 	LogLevel int    // optional, NoticeLogLevel|DebugLogLevel|InfoLogLevel|WarnLogLevel|ErrorLogLevel|FatalLogLevel
 	UserID   string // optional, User ID
 	UserName string // optional, Username
-	TagName  string // optional, tag if you want to group messages in future
 }
 
 // Result will be returned from Cluster (in JSON)
@@ -103,11 +102,6 @@ func (c *Client) validate(msg *Message) error {
 		return errors.New("LogLevel is invalid. Valid are: 0 - 5")
 	}
 
-	// Set defaults
-	if msg.TagName == "" {
-		msg.TagName = "mobile"
-	}
-
 	return nil
 }
 
@@ -154,7 +148,7 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 				Line:     0,
 				Column:   0,
 				LogLevel: msg.LogLevel,
-				TagName:  msg.TagName,
+				TagName:  "mobile",
 			},
 		},
 	}

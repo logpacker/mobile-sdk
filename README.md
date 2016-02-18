@@ -2,7 +2,7 @@
 
 #### How to import into Java project
 
-Android Studio:
+Android Studio (see scnreenshots/ folder):
 
 * File > New > New Module > Import .JAR or .AAR package
 * File > Project Structure > app -> Dependencies -> Add Module Dependency
@@ -11,26 +11,20 @@ Android Studio:
 #### How to use it in Java:
 
 ```java
-String logPackerClusterURL = "https://logpacker.mywebsite.com";
-String logPackerEnv = "development";
-String logPackerAgent = "Nexus";
+import go.logpackermobilesdk.Logpackermobilesdk;
 
-Logpackermobilesdk.Client client;
-Logpackermobilesdk.Message msg;
+// ...
 
 try {
-    client = Logpackermobilesdk.NewClient(logPackerClusterURL, logPackerEnv, logPackerAgent);
+    client = Logpackermobilesdk.NewClient("https://logpacker.mywebsite.com", "dev", android.os.Build.MODEL);
 
-    msg = Logpackermobilesdk.NewMessage();
+    msg = client.NewMessage();
     msg.setMessage("Crash is here!");
-    msg.setSource("paymentmodule");
-    msg.setUserID("1001");
-    msg.setUserName("John");
+    // Use another optional setters for msg object
 
-    client.Send(msg);
+    client.Send(msg); // Send will return Cluster response
 } catch (Exception e) {
-    // Cannot connect to Cluster
-    // Or validation error
+    // Cannot connect to Cluster or validation error
 }
 ```
 
@@ -39,42 +33,18 @@ try {
 You must catch uncaughtException in your application and use LogPacker to send the exception:
 
 ```java
+// ...
+import go.logpackermobilesdk.Logpackermobilesdk;
+
 public class MyApplication extends Application {
     public void onCreate () {
         // Setup handler for uncaught exceptions.
         Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException (Thread thread, Throwable e) {
-                handleUncaughtException (thread, e);
+                // Paste here above code to send e.Message() to the LogPacker Cluster, use msg.setLogLevel(Logpackermobilesdk.FatalLogLevel)
             }
         });
-    }
-
-    public void handleUncaughtException (Thread thread, Throwable e) {
-        String logPackerClusterURL = "https://logpacker.mywebsite.com";
-        String logPackerEnv = "development";
-        String logPackerAgent = "Nexus";
-
-        Logpackermobilesdk.Client client;
-        Logpackermobilesdk.Message msg;
-
-        try {
-            client = Logpackermobilesdk.NewClient(logPackerClusterURL, logPackerEnv, logPackerAgent);
-
-            msg = Logpackermobilesdk.NewMessage();
-            msg.setMessage(e.getMessage());
-            msg.setTagName("crash");
-            msg.setSource("crash");
-            msg.setUserID("1001");
-            msg.setUserName("John");
-
-            client.Send(msg);
-        } catch (Exception e) {
-            // Cannot connect to Cluster
-            // Or validation error
-        }
-
-        System.exit(1); // kill off the crashed app
     }
 }
 ```

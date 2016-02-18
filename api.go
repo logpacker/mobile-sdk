@@ -43,7 +43,9 @@ type Result struct {
 
 // NewMessage initializes new message object
 func (c *Client) NewMessage() *Message {
-	return &Message{}
+	return &Message{
+		LogLevel: InfoLogLevel,
+	}
 }
 
 // Send sends error to the LogPacker Cluster

@@ -18,6 +18,9 @@ func NewClient(clusterURL string, environment string, agent string) (*Client, er
 	if agent == "" {
 		agent = "mobile"
 	}
+	if environment == "" {
+		environment = "development"
+	}
 
 	c := &Client{
 		ClusterURL:  clusterURL,

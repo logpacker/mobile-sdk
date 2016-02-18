@@ -1,8 +1,6 @@
 [![Build Status](https://travis-ci.org/logpacker/mobile-sdk.svg?branch=master)](https://travis-ci.org/logpacker/mobile-sdk)
 
-#### How to import into Java project
-
-Android Studio (see scnreenshots/ folder):
+#### How to import into Android Studio (see screenshots/ folder)
 
 * File > New > New Module > Import .JAR or .AAR package
 * File > Project Structure > app -> Dependencies -> Add Module Dependency
@@ -47,14 +45,35 @@ public class MyApplication extends Application {
 }
 ```
 
-#### How to import into iOS project
+#### How to import framework into Xcode (see screenshots/ folder)
 
-Untar Logpackermobilesdk.framework.tar to the root of your project. Or drag Logpackermobilesdk.framework folder to the Xcode's file browser.
+ * Drag *Logpacker.framework* folder into your Xcode's browser
+ * Use import *#import "Logpackermobilesdk/Logpackermobilesdk.h"*
 
-#### How to use in Xcode
+#### How to use it in Xcode
 
 ```c
+#import "ViewController.h"
 #import "Logpackermobilesdk/Logpackermobilesdk.h"
+
+@interface ViewController ()
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    GoLogpackermobilesdkClient *client;
+    NSError *error;
+    GoLogpackermobilesdkNewClient(@"https://logpacker.mywebsite.com", @"dev", [[UIDevice currentDevice] systemVersion], &client, &error);
+    GoLogpackermobilesdkMessage *msg;
+    msg = client.newMessage;
+    msg.message = @"Crash is here!";
+    // Use another optional setters for msg object
+    GoLogpackermobilesdkResult *result;
+    [client send:(msg) ret0_:(&result) error:(&error)];
+}
 ```
 
 #### How to build an *.aar* or *.framework* packages from Go package

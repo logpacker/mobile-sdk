@@ -12,9 +12,7 @@ Android Studio (see scnreenshots/ folder):
 
 ```java
 import go.logpackermobilesdk.Logpackermobilesdk;
-
 // ...
-
 try {
     client = Logpackermobilesdk.NewClient("https://logpacker.mywebsite.com", "dev", android.os.Build.MODEL);
 
@@ -42,7 +40,7 @@ public class MyApplication extends Application {
         Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException (Thread thread, Throwable e) {
-                // Paste here above code to send e.Message() to the LogPacker Cluster, use msg.setLogLevel(Logpackermobilesdk.FatalLogLevel)
+                // Paste here above code to send e.getMessage() to the LogPacker Cluster, use msg.setLogLevel(Logpackermobilesdk.FatalLogLevel)
             }
         });
     }

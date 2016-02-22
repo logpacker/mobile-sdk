@@ -76,6 +76,31 @@ public class MyApplication extends Application {
 }
 ```
 
+#### How to send iOS crashes to LogPacker
+
+You must catch uncaughtException in your application and use LogPacker to send the exception:
+
+```c
+void InstallUncaughtExceptionHandler()
+{
+    NSSetUncaughtExceptionHandler(&HandleException);
+    signal(SIGABRT, SignalHandler);
+    signal(SIGILL, SignalHandler);
+    signal(SIGSEGV, SignalHandler);
+    signal(SIGFPE, SignalHandler);
+    signal(SIGBUS, SignalHandler);
+    signal(SIGPIPE, SignalHandler);
+}
+
+void HandleException(NSException *exception) {
+    // Paste here above code to send [exception reason] to the LogPacker Cluster, use msg.logLevel = GoLogpackermobilesdk.fatalLogLevel
+}
+
+static void SignalHandler(int signo) {
+    // The same
+}
+```
+
 #### How to build an *.aar* or *.framework* packages from Go package
 
 * golang 1.5+

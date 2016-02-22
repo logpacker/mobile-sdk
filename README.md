@@ -78,7 +78,7 @@ public class MyApplication extends Application {
 
 #### How to send iOS crashes to LogPacker
 
-You must catch uncaughtException in your application and use LogPacker to send the exception:
+You must catch Exceptions and Signals and use LogPacker to send them:
 
 ```c
 void InstallUncaughtExceptionHandler()

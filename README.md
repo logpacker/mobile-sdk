@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/logpacker/mobile-sdk.svg?branch=master)](https://travis-ci.org/logpacker/mobile-sdk)
 
+Godoc - https://godoc.org/github.com/logpacker/mobile-sdk
+
 #### How to import into Android Studio (see screenshots/ folder)
 
 * File > New > New Module > Import .JAR or .AAR package

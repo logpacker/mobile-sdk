@@ -29,7 +29,7 @@ func NewClient(clusterURL string, environment string, agent string) (*Client, er
 	}
 
 	if clusterURL == "" {
-		return c, errors.New("ClusterURL must contain host:port for your LogPacker Cluster. Given " + clusterURL)
+		return c, errors.New("ClusterURL must contain host:port for your LogPacker Cluster")
 	}
 
 	// Ping cluster Public API

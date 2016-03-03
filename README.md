@@ -1,8 +1,10 @@
 [![Build Status](https://travis-ci.org/logpacker/mobile-sdk.svg?branch=master)](https://travis-ci.org/logpacker/mobile-sdk)
 
+Repository contains SDK for Android, iOS and Windows Phone. Android and iOS SDKs are build with help of shared code and gomobile. Windows Phone SDK is located in **wp** folder and written in Mono C#, it's a portable Class library.
+
 Godoc - https://godoc.org/github.com/logpacker/mobile-sdk
 
-#### How to import into Android Studio (see screenshots/ folder)
+#### How to import into Android Studio (see *screenshots/* folder)
 
 * File > New > New Module > Import .JAR or .AAR package
 * File > Project Structure > app -> Dependencies -> Add Module Dependency
@@ -47,7 +49,7 @@ public class MyApplication extends Application {
 }
 ```
 
-#### How to import framework into Xcode (see screenshots/ folder)
+#### How to import framework into Xcode (see *screenshots/* folder)
 
  * Drag *Logpacker.framework* folder into your Xcode's browser
  * Use import *#import "Logpackermobilesdk/Logpackermobilesdk.h"*
@@ -102,6 +104,14 @@ static void SignalHandler(int signo) {
     // The same
 }
 ```
+
+#### How to import into Visual Studio
+
+TODO
+
+#### How to use it in C#
+
+TODO
 
 #### How to build an *.aar* or *.framework* packages from Go package
 

@@ -85,6 +85,12 @@ namespace logpackermobilesdk
 			return decoded;
 		}
 
+		public Response SendException(Exception e)
+		{
+			Event ev = new Event(e.Message, e.StackTrace, Event.FatalLogLevel, "", "");
+			return Send (ev);
+		}
+	
 		private bool Validate(Event e)
 		{
 			if (e.Message == "") {

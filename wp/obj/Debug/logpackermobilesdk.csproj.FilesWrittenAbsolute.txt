@@ -1,0 +1,6 @@
+/home/vn10158nb/lzd/gopath/src/mobile-sdk/wp/obj/Debug/.NETPortable,Version=v4.0,Profile=Profile158.AssemblyAttribute.cs
+/home/vn10158nb/lzd/gopath/src/mobile-sdk/wp/bin/Debug/logpackermobilesdk.dll.mdb
+/home/vn10158nb/lzd/gopath/src/mobile-sdk/wp/bin/Debug/logpackermobilesdk.dll
+/home/vn10158nb/lzd/gopath/src/mobile-sdk/wp/obj/Debug/logpackermobilesdk.dll
+/home/vn10158nb/lzd/gopath/src/mobile-sdk/wp/obj/Debug/logpackermobilesdk.dll.mdb
+/home/vn10158nb/lzd/gopath/src/mobile-sdk/wp/bin/Debug/Newtonsoft.Json.dll

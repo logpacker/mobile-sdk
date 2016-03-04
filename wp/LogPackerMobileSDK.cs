@@ -115,12 +115,12 @@ namespace logpackermobilesdk
 					"\"environment\":\""+Environment+"\","+
 					"\"agent\":\""+Agent+"\""+
 				"},"+
-				"messages\":[{"+
+				"\"messages\":[{"+
 					"\"message\":\""+e.Message+"\","+
 					"\"source\":\""+e.Source+"\","+
 					"\"line\":0,"+
 					"\"column\":0,"+
-					"\"log_level\":\""+e.LogLevel.ToString()+"\","+
+					"\"log_level\":"+e.LogLevel.ToString()+","+
 					"\"tag_name\":\"mobile\""+
 				"}]"+
 			"}";

@@ -110,7 +110,7 @@ static void SignalHandler(int signo) {
  * Add *logpackermobilesdk.dll* into your C# project
  * Add *using logpackermobilesdk;* before you start to use it
 
-#### How to use it in C#
+#### How to use it in C# code
 
 ```cs
 using System;
@@ -118,9 +118,9 @@ using logpackermobilesdk;
 
 namespace test
 {
-	public class EmptyClass
+    class MainClass
 	{
-		public EmptyClass ()
+		public static void Main (string[] args)
 		{
 			try {
 				Client c = new Client ("https://logpacker.mywebsite.com", "dev", System.Environment.MachineName);
@@ -142,9 +142,9 @@ using logpackermobilesdk;
 
 namespace test
 {
-	public class EmptyClass
+    class MainClass
 	{
-		public EmptyClass ()
+		public static void Main (string[] args)
 		{
 			try {
 				// Exception thrown here

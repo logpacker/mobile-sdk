@@ -105,13 +105,57 @@ static void SignalHandler(int signo) {
 }
 ```
 
-#### How to import into Visual Studio
+#### How to import into C# project
 
- * Install *wp-logpackermobilesdk* folder
+ * Add *logpackermobilesdk.dll* into your C# project
+ * Add *using logpackermobilesdk;* before you start to use it
 
 #### How to use it in C#
 
-TODO
+```cs
+using System;
+using logpackermobilesdk;
+
+namespace test
+{
+	public class EmptyClass
+	{
+		public EmptyClass ()
+		{
+			try {
+				Client c = new Client ("https://logpacker.mywebsite.com", "dev", System.Environment.MachineName);
+				Event e = new Event ("Crash is here!", "modulename", Event.FatalLogLevel, "1000", "John");
+				c.Send (e);
+			} catch {
+				// Handle connection error here
+			}
+		}
+	}
+}
+```
+
+#### How to send C# exception to LogPacker
+
+```cs
+using System;
+using logpackermobilesdk;
+
+namespace test
+{
+	public class EmptyClass
+	{
+		public EmptyClass ()
+		{
+			try {
+				// Exception thrown here
+			} catch (Exception e) {
+				Client c = new Client ("https://logpacker.mywebsite.com", "dev", System.Environment.MachineName);
+				c.SendException (e);
+			}
+		}
+	}
+}
+```
 
 #### How to build an *.aar* or *.framework* packages from Go package
 

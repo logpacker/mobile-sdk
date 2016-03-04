@@ -1,0 +1,6 @@
+Name: logpackermobilesdk
+Description: logpackermobilesdk
+Version: 0.1
+
+Requires: 
+Libs: -r:./logpackermobilesdk.dll

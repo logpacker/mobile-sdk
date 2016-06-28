@@ -11,6 +11,7 @@ type Client struct {
 	ClusterURL  string
 	Environment string
 	Agent       string
+	CloudKey    string
 }
 
 // NewClient returns Client object and error

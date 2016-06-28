@@ -48,6 +48,11 @@ func (c *Client) NewMessage() *Message {
 	}
 }
 
+// SetCloudKey sets agent's cloud key
+func (c *Client) SetCloudKey(cloudKey string) {
+	c.CloudKey = cloudKey
+}
+
 // Send sends error to the LogPacker Cluster
 func (c *Client) Send(msg *Message) (*Result, error) {
 	err := c.validate(msg)
@@ -133,6 +138,7 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 	type payload struct {
 		Client   client    `json:"client"`
 		Messages []message `json:"messages"`
+		CloudKey string    `json:"cloud_key"`
 	}
 
 	payloadData := payload{
@@ -153,6 +159,7 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 				TagName:  "mobile",
 			},
 		},
+		CloudKey: c.CloudKey,
 	}
 
 	json, err := json.Marshal(payloadData)

@@ -12,6 +12,7 @@ namespace logpackermobilesdk
 		public string ClusterURL;
 		public string Environment;
 		public string Agent;
+		public string CloudKey;
 
 		public Client(string clusterURL, string environment, string agent) {
 			if (agent == "") {
@@ -90,7 +91,13 @@ namespace logpackermobilesdk
 			Event ev = new Event(e.Message, e.StackTrace, Event.FatalLogLevel, "", "");
 			return Send (ev);
 		}
-	
+
+		public Client SetCloudKey(string cloudKey)
+		{
+			this.CloudKey = cloudKey;
+			return this;
+		}
+
 		private bool Validate(Event e)
 		{
 			if (e.Message == "") {
@@ -122,7 +129,8 @@ namespace logpackermobilesdk
 					"\"column\":0,"+
 					"\"log_level\":"+e.LogLevel.ToString()+","+
 					"\"tag_name\":\"mobile\""+
-				"}]"+
+				"}],"+
+				"\"cloud_key\":\""+CloudKey+"\""+
 			"}";
 		}
 	}
@@ -160,4 +168,3 @@ namespace logpackermobilesdk
 		public string[] Messages;
 	}
 }
-

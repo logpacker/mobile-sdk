@@ -170,6 +170,12 @@ namespace test
 * gomobile bind --target=ios .
 * Find Logpackermobilesdk.framework folder
 
+#### How to build CS library
+
+ * MonoDevelop
+ * Open project (wp folder)
+ * Project -> Export
+
 #### How to contribute
 
 * Fork master branch

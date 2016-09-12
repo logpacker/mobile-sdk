@@ -1,6 +1,8 @@
 language: go
 go:
  - 1.5
+ - 1.6
+ - 1.7
 install:
  - export PATH=$PATH:$HOME/gopath/bin
  - go get github.com/gorilla/mux

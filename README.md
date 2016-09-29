@@ -159,14 +159,16 @@ namespace test
 
 #### How to build an *.aar* or *.framework* packages from Go package
 
-* golang 1.5+
-* go get golang.org/x/mobile/cmd/gomobile
-* gomobile init
+* golang 1.7+
+* `go get golang.org/x/mobile/cmd/gomobile`
+* `gomobile init`
 * Install [Android SDK](https://developer.android.com/sdk/index.html#Other) to ~/android-sdk
 * ~/android-sdk/tools/android sdk
-* java-jdk
-* export ANDROID_HOME=$HOME"/android-sdk" && gomobile bind --target=android .
+* Install `java-jdk`
+* `export ANDROID_HOME=$HOME"/android-sdk"`
+* gomobile bind --target=android .
 * Find *.aar* file in working folder
+* Install XCode
 * gomobile bind --target=ios .
 * Find Logpackermobilesdk.framework folder
 

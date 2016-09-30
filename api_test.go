@@ -142,3 +142,14 @@ func TestSend(t *testing.T) {
 		t.Errorf("Invalid ID returned")
 	}
 }
+
+func TestNewMessage(t *testing.T) {
+	c := Client{
+		ClusterURL: Server.URL,
+	}
+
+	m := c.NewMessage()
+	if m == nil || m.LogLevel != InfoLogLevel {
+		t.Errorf("Message is not initialized correctly")
+	}
+}

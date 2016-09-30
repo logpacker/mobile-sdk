@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/logpacker/mobile-sdk.svg?branch=master)](https://travis-ci.org/logpacker/mobile-sdk)
 
-Repository contains SDK for Android, iOS and Windows Phone. Android and iOS SDKs are build with help of shared code and gomobile. Windows Phone SDK is located in **wp/** folder and written in Mono C#, it's a portable Class library.
+Repository contains SDK for Android, iOS and Windows Phone. Android and iOS SDKs are build with help of shared code and gomobile. Windows Phone SDK is located in **wp/** folder and written in C#, it's a portable Class library.
 
 Godoc - https://godoc.org/github.com/logpacker/mobile-sdk
 
@@ -14,38 +14,19 @@ Godoc - https://godoc.org/github.com/logpacker/mobile-sdk
 
 ```java
 import go.logpackermobilesdk.Logpackermobilesdk;
-// ...
-try {
-    client = Logpackermobilesdk.NewClient("https://logpacker.mywebsite.com", "dev", android.os.Build.MODEL);
 
-    msg = client.NewMessage();
+// It's possible to catch all app's crashes via Thread.setDefaultUncaughtExceptionHandler and send it to LogPacker
+try {
+    Client client = Logpackermobilesdk.newClient("https://logpacker.mywebsite.com", "dev", android.os.Build.MODEL);
+    //client.setCloudKey("CLOUD-KEY-123");
+
+    Message msg = client.newMessage();
     msg.setMessage("Crash is here!");
     // Use another optional setters for msg object
 
-    client.Send(msg); // Send will return Cluster response
+    client.send(msg); // Send will return Cluster response
 } catch (Exception e) {
     // Cannot connect to Cluster or validation error
-}
-```
-
-#### How to send Android crashes to LogPacker
-
-You must catch uncaughtException in your application and use LogPacker to send the exception:
-
-```java
-// ...
-import go.logpackermobilesdk.Logpackermobilesdk;
-
-public class MyApplication extends Application {
-    public void onCreate () {
-        // Setup handler for uncaught exceptions.
-        Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException (Thread thread, Throwable e) {
-                // Paste here above code to send e.getMessage() to the LogPacker Cluster, use msg.setLogLevel(Logpackermobilesdk.FatalLogLevel)
-            }
-        });
-    }
 }
 ```
 
@@ -78,31 +59,8 @@ public class MyApplication extends Application {
     GoLogpackermobilesdkResult *result;
     [client send:(msg) ret0_:(&result) error:(&error)];
 }
-```
 
-#### How to send iOS crashes to LogPacker
-
-You must catch Exceptions and Signals and use LogPacker to send them:
-
-```c
-void InstallUncaughtExceptionHandler()
-{
-    NSSetUncaughtExceptionHandler(&HandleException);
-    signal(SIGABRT, SignalHandler);
-    signal(SIGILL, SignalHandler);
-    signal(SIGSEGV, SignalHandler);
-    signal(SIGFPE, SignalHandler);
-    signal(SIGBUS, SignalHandler);
-    signal(SIGPIPE, SignalHandler);
-}
-
-void HandleException(NSException *exception) {
-    // Paste here above code to send [exception reason] to the LogPacker Cluster, use msg.logLevel = GoLogpackermobilesdk.fatalLogLevel
-}
-
-static void SignalHandler(int signo) {
-    // The same
-}
+// It's possible to catch all app's crashes via signal(SIGSEGV, SignalHandler) and send it to LogPacker from SignalHandler func
 ```
 
 #### How to import into C# project
@@ -132,29 +90,8 @@ namespace test
 		}
 	}
 }
-```
 
-#### How to send C# exception to LogPacker
-
-```cs
-using System;
-using logpackermobilesdk;
-
-namespace test
-{
-    class MainClass
-	{
-		public static void Main (string[] args)
-		{
-			try {
-				// Exception thrown here
-			} catch (Exception e) {
-				Client c = new Client ("https://logpacker.mywebsite.com", "dev", System.Environment.MachineName);
-				c.SendException (e);
-			}
-		}
-	}
-}
+// It's possible to catch all app's crashes via global try-catch block and send it to LogPacker
 ```
 
 #### How to build an *.aar* or *.framework* packages from Go package

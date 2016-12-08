@@ -16,7 +16,7 @@ namespace logpackermobilesdk
 
 		public Client(string clusterURL, string environment, string agent) {
 			if (agent == "") {
-				agent = "mobile";
+				agent = "windowsphone";
 			}
 			if (environment == "") {
 				environment = "development";
@@ -118,7 +118,7 @@ namespace logpackermobilesdk
 				"\"client\":{" +
 					"\"user_id\":\""+e.UserID+"\","+
 					"\"user_name\":\""+e.UserName+"\","+
-					"\"url\":\"\","+
+					"\"platform\":\"mobile\","+
 					"\"environment\":\""+Environment+"\","+
 					"\"agent\":\""+Agent+"\""+
 				"},"+

@@ -116,18 +116,24 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 	type client struct {
 		UserID   string `json:"user_id"`
 		UserName string `json:"user_name"`
-		URL      string `json:"url"`
 		Env      string `json:"environment"`
 		Agent    string `json:"agent"`
+		Platform string `json:"platform"`
+	}
+
+	type customParam struct {
+		Name  string `json:"name"`
+		Value int    `json:"value"`
 	}
 
 	type message struct {
-		Message  string `json:"message"`
-		Source   string `json:"source"`
-		Line     int    `json:"line"`
-		Column   int    `json:"column"`
-		LogLevel int    `json:"log_level"`
-		TagName  string `json:"tag_name"`
+		Message  string        `json:"message"`
+		Source   string        `json:"source"`
+		Line     int           `json:"line"`
+		Column   int           `json:"column"`
+		LogLevel int           `json:"log_level"`
+		TagName  string        `json:"tag_name"`
+		Params   []customParam `json:"params"`
 	}
 
 	type payload struct {
@@ -142,7 +148,7 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 			UserName: msg.UserName,
 			Env:      c.Environment,
 			Agent:    c.Agent,
-			URL:      "",
+			Platform: "mobile",
 		},
 		Messages: []message{
 			message{

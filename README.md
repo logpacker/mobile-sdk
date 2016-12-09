@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/logpacker/mobile-sdk.svg?branch=master)](https://travis-ci.org/logpacker/mobile-sdk)
+[![Gitter](https://badges.gitter.im/logpacker/mobile-sdk.svg)](https://gitter.im/logpacker/mobile-sdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 
 Repository contains SDK for Android, iOS and Windows Phone. Android and iOS SDKs are build with help of shared code and gomobile. Windows Phone SDK is located in **wp/** folder and written in C#, it's a portable Class library.
 

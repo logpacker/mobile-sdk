@@ -18,7 +18,7 @@ import go.logpackermobilesdk.Logpackermobilesdk;
 // It's possible to catch all app's crashes via Thread.setDefaultUncaughtExceptionHandler and send it to LogPacker
 try {
     Client client = Logpackermobilesdk.newClient("https://logpacker.mywebsite.com", "dev", android.os.Build.MODEL);
-    //client.setCloudKey("CLOUD-KEY-123");
+    client.setCloudKey("");
 
     Message msg = client.newMessage();
     msg.setMessage("Crash is here!");
@@ -52,6 +52,7 @@ try {
     GoLogpackermobilesdkClient *client;
     NSError *error;
     GoLogpackermobilesdkNewClient(@"https://logpacker.mywebsite.com", @"dev", [[UIDevice currentDevice] systemVersion], &client, &error);
+    client.cloudKey = @"";
     GoLogpackermobilesdkMessage *msg;
     msg = client.newMessage;
     msg.message = @"Crash is here!";
@@ -81,7 +82,7 @@ namespace test
 		public static void Main (string[] args)
 		{
 			try {
-				Client c = new Client ("https://logpacker.mywebsite.com", "dev", System.Environment.MachineName);
+				Client c = new Client ("https://logpacker.mywebsite.com", "dev", System.Environment.MachineName, "");
 				Event e = new Event ("Crash is here!", "modulename", Event.FatalLogLevel, "1000", "John");
 				c.Send (e);
 			} catch {

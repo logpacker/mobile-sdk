@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "logpackermobilesdk", "logpackermobilesdk.csproj", "{D499567D-C156-4034-8384-8F3C9C3B8F80}"
 EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Packages", "Packages.mdproj", "{52FA4E1D-2CBD-4847-83BA-F014C8CB11BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,8 @@ Global
 		{D499567D-C156-4034-8384-8F3C9C3B8F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D499567D-C156-4034-8384-8F3C9C3B8F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D499567D-C156-4034-8384-8F3C9C3B8F80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52FA4E1D-2CBD-4847-83BA-F014C8CB11BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52FA4E1D-2CBD-4847-83BA-F014C8CB11BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = logpackermobilesdk.csproj

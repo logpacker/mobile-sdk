@@ -1,3 +1,4 @@
+[![Go Report Card](https://goreportcard.com/badge/logpacker/mobile-sdk)](https://goreportcard.com/report/logpacker/mobile-sdk)
 [![Build Status](https://travis-ci.org/logpacker/mobile-sdk.svg?branch=master)](https://travis-ci.org/logpacker/mobile-sdk)
 [![Gitter](https://badges.gitter.im/logpacker/mobile-sdk.svg)](https://gitter.im/logpacker/mobile-sdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 

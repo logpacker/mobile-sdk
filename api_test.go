@@ -138,7 +138,7 @@ func TestSend(t *testing.T) {
 	if err != nil || result == nil {
 		t.Errorf("Result must be not nil")
 	}
-	if result.ID != "ID-1001" {
+	if result.Data[0] != "ID-1001" {
 		t.Errorf("Invalid ID returned")
 	}
 }

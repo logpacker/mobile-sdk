@@ -38,7 +38,7 @@ type Message struct {
 type Result struct {
 	Code  int
 	Error string
-	ID    string // Unique message ID after save
+	Data  []string // Unique message ID after save
 }
 
 // NewMessage initializes new message object
@@ -83,14 +83,10 @@ func (c *Client) Send(msg *Message) (*Result, error) {
 		return nil, err
 	}
 
-	messageID := ""
-	if len(apiResult.Data) > 0 {
-		messageID = apiResult.Data[0]
-	}
 	result := &Result{
 		Code:  apiResult.Code,
 		Error: apiResult.Error,
-		ID:    messageID,
+		Data:  apiResult.Data,
 	}
 
 	return result, nil
@@ -119,21 +115,17 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 		Env      string `json:"environment"`
 		Agent    string `json:"agent"`
 		Platform string `json:"platform"`
-	}
-
-	type customParam struct {
-		Name  string `json:"name"`
-		Value int    `json:"value"`
+		Version  string `json:"version"`
+		OS       string `json:"os"`
 	}
 
 	type message struct {
-		Message  string        `json:"message"`
-		Source   string        `json:"source"`
-		Line     int           `json:"line"`
-		Column   int           `json:"column"`
-		LogLevel int           `json:"log_level"`
-		TagName  string        `json:"tag_name"`
-		Params   []customParam `json:"params"`
+		Message  string `json:"message"`
+		Source   string `json:"source"`
+		Line     int    `json:"line"`
+		Column   int    `json:"column"`
+		LogLevel int    `json:"log_level"`
+		TagName  string `json:"tag_name"`
 	}
 
 	type payload struct {
@@ -149,15 +141,16 @@ func (c *Client) generatePayload(msg *Message) ([]byte, error) {
 			Env:      c.Environment,
 			Agent:    c.Agent,
 			Platform: "mobile",
+			OS:       "android",
 		},
 		Messages: []message{
-			message{
+			{
 				Message:  msg.Message,
 				Source:   msg.Source,
 				Line:     0,
 				Column:   0,
 				LogLevel: msg.LogLevel,
-				TagName:  "mobile",
+				TagName:  "android",
 			},
 		},
 		CloudKey: c.CloudKey,

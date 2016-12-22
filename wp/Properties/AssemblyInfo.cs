@@ -4,10 +4,10 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
 [assembly: AssemblyTitle ("logpackermobilesdk")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("LogPacker SDK for Windows Phone")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("")]
-[assembly: AssemblyProduct ("")]
+[assembly: AssemblyCompany ("LogPacker")]
+[assembly: AssemblyProduct ("LogPacker WP SDK")]
 [assembly: AssemblyCopyright ("LogPacker")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]

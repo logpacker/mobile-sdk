@@ -121,8 +121,6 @@ namespace logpackermobilesdk
 				"\"messages\":[{"+
 					"\"message\":\""+e.Message+"\","+
 					"\"source\":\""+e.Source+"\","+
-					"\"line\":0,"+
-					"\"column\":0,"+
 					"\"log_level\":"+e.LogLevel.ToString()+","+
 					"\"tag_name\":\"windowsphone\""+
 				"}],"+

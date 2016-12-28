@@ -116,7 +116,7 @@ namespace logpackermobilesdk
 					"\"platform\":\"mobile\","+
 					"\"environment\":\""+Environment+"\","+
 					"\"agent\":\""+Agent+"\","+
-                    "\"os\":\"windows\""+
+					"\"os\":\"windows\""+
 				"},"+
 				"\"messages\":[{"+
 					"\"message\":\""+e.Message+"\","+

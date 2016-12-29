@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net;
 using System.Threading;
 using System.Text;
@@ -14,28 +14,33 @@ namespace logpackermobilesdk
 		public string Agent;
 		public string CloudKey;
 
-		public Client(string clusterURL, string environment, string agent, string cloudKey) {
-			if (agent == "") {
+		public Client(string clusterURL, string environment, string agent, string cloudKey)
+		{
+			if (agent == "")
+			{
 				agent = "windowsphone";
 			}
-			if (environment == "") {
+			if (environment == "")
+			{
 				environment = "development";
 			}
 
-			if (clusterURL == "") {
-				throw new ArgumentException ("ClusterURL must contain host:port for your LogPacker Cluster");
+			if (clusterURL == "")
+			{
+				throw new ArgumentException("ClusterURL must contain host:port for your LogPacker Cluster");
 			}
 
 			// Get response code from LogPacker cluster
-			WebRequest request = WebRequest.Create(clusterURL+"/version");
+			WebRequest request = WebRequest.Create(clusterURL + "/version");
 			AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 			IAsyncResult asyncResult = request.BeginGetResponse(r => autoResetEvent.Set(), null);
 			// Wait until the call is finished
 			autoResetEvent.WaitOne();
 			HttpWebResponse response = request.EndGetResponse(asyncResult) as HttpWebResponse;
 			int code = (int)response.StatusCode;
-			if (code != 200) {
-				throw new WebException ("ClusterURL "+clusterURL+" isn't reachable");
+			if (code != 200)
+			{
+				throw new WebException("ClusterURL " + clusterURL + " isn't reachable");
 			}
 
 			ClusterURL = clusterURL;
@@ -46,11 +51,11 @@ namespace logpackermobilesdk
 
 		public Response Send(Event e)
 		{
-			Validate (e);
-			string json = GenerateRequestJSONString (e);
+			Validate(e);
+			string json = GenerateRequestJSONString(e);
 
 			// Make POST request
-			WebRequest request = WebRequest.Create(ClusterURL+"/save");
+			WebRequest request = WebRequest.Create(ClusterURL + "/save");
 			request.ContentType = "text/json";
 			request.Method = "POST";
 
@@ -60,7 +65,7 @@ namespace logpackermobilesdk
 			// Wait until tit's finished
 			autoResetEventStream.WaitOne();
 			Stream stream = request.EndGetRequestStream(asyncResultStream) as Stream;
-			StreamWriter streamWriter = new StreamWriter (stream);
+			StreamWriter streamWriter = new StreamWriter(stream);
 			streamWriter.Write(json);
 			streamWriter.Flush();
 
@@ -71,13 +76,15 @@ namespace logpackermobilesdk
 			autoResetEvent.WaitOne();
 			HttpWebResponse response = request.EndGetResponse(asyncResult) as HttpWebResponse;
 			int code = (int)response.StatusCode;
-			if (code != 200) {
-				throw new WebException (code.ToString() +": "+ClusterURL+"/save isn't reachable");
+			if (code != 200)
+			{
+				throw new WebException(code.ToString() + ": " + ClusterURL + "/save isn't reachable");
 			}
 
 			// Parse JSON body
 			string body;
-			using (var sr = new StreamReader(response.GetResponseStream())) {
+			using (var sr = new StreamReader(response.GetResponseStream()))
+			{
 				body = sr.ReadToEnd();
 			}
 
@@ -90,16 +97,18 @@ namespace logpackermobilesdk
 		public Response SendException(Exception e)
 		{
 			Event ev = new Event(e.Message, e.StackTrace, Event.FatalLogLevel, "", "");
-			return Send (ev);
+			return Send(ev);
 		}
 
 		private bool Validate(Event e)
 		{
-			if (e.Message == "") {
+			if (e.Message == "")
+			{
 				throw new ArgumentException("Message cannot be empty");
 			}
-			if (e.LogLevel < Event.FatalLogLevel || e.LogLevel > Event.NoticeLogLevel) {
-				throw new ArgumentException("LogLevel is invalid. Valid are: "+Event.FatalLogLevel.ToString()+" - "+Event.NoticeLogLevel.ToString());
+			if (e.LogLevel < Event.FatalLogLevel || e.LogLevel > Event.NoticeLogLevel)
+			{
+				throw new ArgumentException("LogLevel is invalid. Valid are: " + Event.FatalLogLevel.ToString() + " - " + Event.NoticeLogLevel.ToString());
 			}
 
 			return true;
@@ -111,20 +120,20 @@ namespace logpackermobilesdk
 			// We send only one message(Event) per request
 			return "{" +
 				"\"client\":{" +
-					"\"user_id\":\""+e.UserID+"\","+
-					"\"user_name\":\""+e.UserName+"\","+
-					"\"platform\":\"mobile\","+
-					"\"environment\":\""+Environment+"\","+
-					"\"agent\":\""+Agent+"\","+
-					"\"os\":\"windows\""+
-				"},"+
-				"\"messages\":[{"+
-					"\"message\":\""+e.Message+"\","+
-					"\"source\":\""+e.Source+"\","+
-					"\"log_level\":"+e.LogLevel.ToString()+","+
-					"\"tag_name\":\"windowsphone\""+
-				"}],"+
-				"\"cloud_key\":\""+CloudKey+"\""+
+					"\"user_id\":\"" + e.UserID + "\"," +
+					"\"user_name\":\"" + e.UserName + "\"," +
+					"\"platform\":\"mobile\"," +
+					"\"environment\":\"" + Environment + "\"," +
+					"\"agent\":\"" + Agent + "\"," +
+					"\"os\":\"windows\"" +
+				"}," +
+				"\"messages\":[{" +
+					"\"message\":\"" + e.Message + "\"," +
+					"\"source\":\"" + e.Source + "\"," +
+					"\"log_level\":" + e.LogLevel.ToString() + "," +
+					"\"tag_name\":\"windowsphone\"" +
+				"}]," +
+				"\"cloud_key\":\"" + CloudKey + "\"" +
 			"}";
 		}
 	}
@@ -145,7 +154,8 @@ namespace logpackermobilesdk
 		public const int DebugLogLevel = 4;
 		public const int NoticeLogLevel = 5;
 
-		public Event(string message, string source, int level, string userID, string userName) {
+		public Event(string message, string source, int level, string userID, string userName)
+		{
 			Message = message;
 			Source = source;
 			LogLevel = level;

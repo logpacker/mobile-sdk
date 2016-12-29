@@ -1,21 +1,26 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
-[assembly: AssemblyTitle ("logpackermobilesdk")]
-[assembly: AssemblyDescription ("LogPacker SDK for Windows Phone")]
-[assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("LogPacker")]
-[assembly: AssemblyProduct ("LogPacker WP SDK")]
-[assembly: AssemblyCopyright ("LogPacker")]
-[assembly: AssemblyTrademark ("")]
-[assembly: AssemblyCulture ("")]
+
+[assembly: AssemblyTitle("logpackermobilesdk")]
+[assembly: AssemblyDescription("LogPacker Windows Phone SDK")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("LogPacker")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("${AuthorCopyright}")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
-[assembly: AssemblyVersion ("1.0.*")]
+
+[assembly: AssemblyVersion("1.0.*")]
+
 // The following attributes are used to specify the signing key for the assembly,
 // if desired. See the Mono documentation for more information about signing.
+
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]

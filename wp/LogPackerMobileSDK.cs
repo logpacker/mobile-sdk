@@ -169,6 +169,6 @@ namespace logpackermobilesdk
 	{
 		public string Code;
 		public string Error;
-		public string[] Messages;
+		public string[] Data;
 	}
 }
